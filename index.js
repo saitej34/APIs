@@ -54,15 +54,21 @@ async function getAns(req,res)
             }
         });
     }
-    ans.sort((a,b)=> b.imdb_rating - a.imdb_rating);
-    var maxrate = ans[0].imdb_rating;
-    var fans = ans.filter((item)=>{
-         return item.imdb_rating === maxrate;
-    })
-    console.log(fans);
-    fans.sort((a,b)=> a.name.localeCompare(b.name));
-    res.json(fans[0]);
+    ans.sort((a,b)=> b.imdb_rating - a.imdb_rating || a.name.localeCompare(b.name));
+    // var maxrate = ans[0].imdb_rating;
+    // var fans = ans.filter((item)=>{
+    //      return item.imdb_rating === maxrate;
+    // })
+    // console.log(fans);
+    // fans.sort((a,b)=> a.name.localeCompare(b.name));
+    res.json(ans[0]);
 
+}   
+
+
+async function getAns2(req,res)
+{
+    const r = await axios.get()
 }
 
 
@@ -74,6 +80,11 @@ app.get('/api1',(req,res)=>{
 
 app.get('/api2',(req,res)=>{
     getAns(req,res);
+})
+
+app.get('/api3',(req,res)=>{
+    getAns2(req,res);
+
 })
 
 

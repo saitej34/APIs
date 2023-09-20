@@ -66,9 +66,35 @@ async function getAns(req,res)
 }   
 
 
-async function getAns2(req,res)
+async function gets(req,res)
 {
-    const r = await axios.get()
+    console.log("function called");
+    let doctor = "Dr Arnold Bullock";
+    let id = 2;
+    var page = 1;
+    let totalpages = 1;
+    let ans = new Array();
+    while(page <= totalpages)
+    {
+        console.log("Hey page "+page);
+        const url = "https://jsonmock.hackerrank.com/api/medical_records?page="+page;
+        const  r1 = await axios.get(url);
+        totalpages = r1.data.total_pages;
+        const dt = r1.data.data;
+        dt.filter((item)=>{
+            if(item.doctor.name == doctor && item.diagnosis.id == id)
+            {
+                console.log("Hwy");
+                ans.push(item.vitals.bodyTemperature);
+            }
+        })
+        page = page + 1;
+    }
+    ans.sort((a,b)=> a - b);
+    f=[]
+    f.push(Math.floor(ans[0]))
+    f.push(Math.floor(ans[ans.length-1]))
+    return res.json(f);
 }
 
 
@@ -83,7 +109,8 @@ app.get('/api2',(req,res)=>{
 })
 
 app.get('/api3',(req,res)=>{
-    getAns2(req,res);
+    console.log("api called");
+    gets(req,res);
 
 })
 
